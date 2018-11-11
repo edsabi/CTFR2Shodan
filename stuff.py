@@ -17,7 +17,7 @@ class Domain_Recon(object):
         print('Querying certspotter database')
         get_subdomains = requests.get("https://api.certspotter.com/v1/issuances?domain="+domain+'&include_subdomains=true&expand=dns_names')
         subdomain_page = get_subdomains.text.split('"dns_names":[')
-
+        print('Parsing subdomains')
         for page in subdomain_page[1:]:
             page_list = page.split('],')[0].split(',')
             for page2 in page_list:
@@ -27,7 +27,7 @@ class Domain_Recon(object):
 
     def shodan_api(self):
         shodan_key = '&key=putAPIkeyHere'
-
+        print('Processing subdomains to Shodan'
         for subdomain in list(set(dr.subdomains)):
             time.sleep(1)
             try:
@@ -43,7 +43,9 @@ class Domain_Recon(object):
                     os.makedirs('target/'+time.strftime("%Y-%m-%d")+'/'+subdomain)
                 except:
                     print (traceback.print_exc())
-
+                
+                print('Getting Shodan info')
+                      
                 dr.shodan_results = requests.get('https://api.shodan.io/shodan/host/'+resolved_IP+shodan_key, verify = False).text
                 shodan_lines = dr.shodan_results.split(',')
 

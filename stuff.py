@@ -69,8 +69,11 @@ class Domain_Recon(object):
                         traceback.print_exc()
                 else:
                     print('Removing useless stuff')
-                    os.remove('target/'+time.strftime("%Y-%m-%d")+'/'+subdomain+'/info.csv')
-                    os.rmdir('target/'+time.strftime("%Y-%m-%d")+'/'+subdomain)
+                    
+                    try:
+                        os.remove('target/'+time.strftime("%Y-%m-%d")+'/'+subdomain+'/info.csv')
+                    except:
+                        traceback.print_exc()                    
                 for i in os.listdir("target/"+time.strftime("%Y-%m-%d")):
                     try:
                         os.rmdir("target/"+time.strftime("%Y-%m-%d")+'/'+i)

@@ -26,13 +26,13 @@ class Domain_Recon(object):
         print(list(set(dr.subdomains)))
 
     def shodan_api(self):
-        shodan_key = '?key=J8ksgexD5Oyif5PgCns3YU3FMDQZZARK'
+        shodan_key = '&key=putAPIkeyHere'
 
         for subdomain in list(set(dr.subdomains)):
             time.sleep(1)
             try:
                 print('Resolving '+subdomain)
-                host_resolve_shodan = requests.get('https://api.shodan.io/dns/resolve?hostnames='+subdomain+'&key=J8ksgexD5Oyif5PgCns3YU3FMDQZZARK', verify = False )
+                host_resolve_shodan = requests.get('https://api.shodan.io/dns/resolve?hostnames='+subdomain+shodan_key, verify = False )
                 print('IP FOUND! '+host_resolve_shodan.text)
 
                 try:
@@ -44,7 +44,7 @@ class Domain_Recon(object):
                 except:
                     print (traceback.print_exc())
 
-                dr.shodan_results = requests.get('https://api.shodan.io/shodan/host/'+resolved_IP+'?key=J8ksgexD5Oyif5PgCns3YU3FMDQZZARK', verify = False).text
+                dr.shodan_results = requests.get('https://api.shodan.io/shodan/host/'+resolved_IP+shodan_key, verify = False).text
                 shodan_lines = dr.shodan_results.split(',')
 
 
